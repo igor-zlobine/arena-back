@@ -31,14 +31,14 @@ class CommunityController extends AbstractController
     public function create(#[MapRequestPayload(validationGroups: 'n')] CreateCommunityRequest $request)
     {
         $this->validate($request);
-        return $this->getManger()->createCommunity($request);
+        return $this->getManager()->createCommunity($request);
     }
 
     #[Rest\View(statusCode:200)]
     #[Rest\Get('/{communityId}', name: 'get')]
     public function get(string $communityId)
     {
-        return $this->getManger()->getById($communityId);
+        return $this->getManager()->getById($communityId);
     }
 
     #[Rest\View(statusCode:200)]
@@ -46,18 +46,18 @@ class CommunityController extends AbstractController
     public function update(#[MapRequestPayload(validationGroups: 'n')] UpdateCommunityRequest $request, string $communityId)
     {
         $request->id = $communityId;
-        return $this->getManger()->updateCommunity($request);
+        return $this->getManager()->updateCommunity($request);
     }
 
     #[Rest\View(statusCode:200)]
     #[Rest\Get(name: 'fetch_all')]
     public function list()
     {
-        return $this->getManger()->fetchAll();
+        return $this->getManager()->fetchAll();
     }
 
 
-    private function getManger(): CommunityManager
+    private function getManager(): CommunityManager
     {
         return $this->communityManager;
     }

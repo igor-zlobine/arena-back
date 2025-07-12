@@ -7,6 +7,7 @@ use App\Core\Validation\Validator;
 use App\Request\CreateFanTokenRequest;
 use App\Request\CreateUserRequest;
 use App\Request\LoginRequest;
+use App\Request\UpdateFanTokenRequest;
 use App\Service\FanTokenManager;
 use App\Service\Security\AuthTokenManager;
 use App\Service\UserManager;
@@ -41,6 +42,14 @@ class FanTokenController extends AbstractController
     public function get(string $fantokenId)
     {
         return $this->getManager()->getById($fantokenId);
+    }
+
+    #[Rest\View(statusCode:200)]
+    #[Rest\Put('/{fantokenId}', name: 'update')]
+    public function update(#[MapRequestPayload(validationGroups: 'n')] UpdateFanTokenRequest $request, string $fantokenId)
+    {
+        $request->id = $fantokenId;
+        return $this->getManager()->updateFanToken($request);
     }
 
     private function getManager(): FanTokenManager

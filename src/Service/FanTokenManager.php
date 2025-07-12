@@ -10,6 +10,7 @@ use App\Repository\FanTokenEntityRepository;
 use App\Repository\UserEntityRepository;
 use App\Request\CreateFanTokenRequest;
 use App\Request\CreateUserRequest;
+use App\Request\UpdateFanTokenRequest;
 use App\Service\Security\UserPasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -36,6 +37,15 @@ class FanTokenManager extends AbstractManager
         $community = $this->getEntityById(CommunityEntity::class, $request->communityId);
 
         $entity->setCommunity($community);
+
+        return $this->getRepository()->save($entity);
+    }
+
+    public function updateFanToken(UpdateFanTokenRequest $request): FanTokenEntity
+    {
+        $entity = $this->getById($request->id);
+        $entity
+            ->setPrice($request->price);
 
         return $this->getRepository()->save($entity);
     }
