@@ -10,8 +10,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[UniqueEntity('email', entityClass: UserEntity::class)]
 class CreateUserRequest implements RequestInterface
 {
+    #[Assert\NotBlank]
+    #[Assert\Email]
     public ?string $email = null;
-    public ?string $password = null;
+//    public ?string $password = null;
 
     #[Assert\NotBlank]
     #[Assert\Length(min: 2, max: 50)]

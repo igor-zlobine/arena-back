@@ -26,7 +26,7 @@ class UserController extends AbstractController
     }
 
     #[Rest\View(statusCode:200)]
-    #[Rest\Post('/', name: 'create')]
+    #[Rest\Post(name: 'create')]
     public function userCreate(#[MapRequestPayload(validationGroups: 'n')] CreateUserRequest $request, UserManager $userManager)
     {
         $this->validate($request);
@@ -34,16 +34,16 @@ class UserController extends AbstractController
         return $userEntity;
     }
 
-    #[Rest\View(statusCode:200)]
-    #[Rest\Post('/login', name: 'login')]
-    public function userLogin(#[MapRequestPayload(validationGroups: 'n')] LoginRequest $request, AuthTokenManager $authTokenManager)
-    {
-        $this->validate($request);
-        $token = $authTokenManager->login($request);
-        $encodedToken = $authTokenManager->encodeToken($token);
-        return [
-            'token' => $encodedToken,
-        ];
-    }
+//    #[Rest\View(statusCode:200)]
+//    #[Rest\Post('/login', name: 'login')]
+//    public function userLogin(#[MapRequestPayload(validationGroups: 'n')] LoginRequest $request, AuthTokenManager $authTokenManager)
+//    {
+//        $this->validate($request);
+//        $token = $authTokenManager->login($request);
+//        $encodedToken = $authTokenManager->encodeToken($token);
+//        return [
+//            'token' => $encodedToken,
+//        ];
+//    }
 
 }
