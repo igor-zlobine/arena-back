@@ -40,6 +40,13 @@ class CommunityController extends AbstractController
         return $this->getManger()->getById($communityId);
     }
 
+    #[Rest\View(statusCode:200)]
+    #[Rest\Get(name: 'fetch_all')]
+    public function list()
+    {
+        return $this->getManger()->fetchAll();
+    }
+
 
     private function getManger(): CommunityManager
     {

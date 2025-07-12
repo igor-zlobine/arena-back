@@ -37,6 +37,16 @@ class CommunityManager extends AbstractManager
         return $entity;
     }
 
+    public function fetchAll(): array
+    {
+        $communities = $this->getCommunityEntityRepository()->findAll();
+        if (empty($communities)) {
+            throw new NotFoundException('No communities found');
+        }
+        return $communities;
+    }
+
+
     /**
      * @throws NotFoundException
      */

@@ -9,9 +9,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation AS JMS;
 
 #[ORM\Entity(repositoryClass: UserEntityRepository::class)]
 #[ORM\Table(name: "users")]
+#[JMS\ExclusionPolicy(policy: 'NONE')]
 class UserEntity extends AbstractEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use EntityTrait;
@@ -37,6 +39,7 @@ class UserEntity extends AbstractEntity implements UserInterface, PasswordAuthen
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $email = null;
 
+    #[JMS\Exclude]
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $password = null;
 
