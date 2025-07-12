@@ -121,7 +121,7 @@ class UserEntity extends AbstractEntity implements UserInterface, PasswordAuthen
 
     public function eraseCredentials(): void
     {
-        $this->password = null;
+       // No sensitive data to clear
     }
 
     public function getUserIdentifier(): string
