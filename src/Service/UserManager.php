@@ -42,12 +42,7 @@ class UserManager extends AbstractManager
      */
     public function getUserById(string $id): UserEntity
     {
-        $user = $this->getUserEntityRepository()->find($id);
-
-        if (null === $user) {
-            throw new NotFoundException(['User with ID %s not found', $id]);
-        }
-        return $user;
+        return $this->getEntityById(UserEntity::class, $id);
     }
 
     public function getUserEntityRepository(): UserEntityRepository

@@ -4,19 +4,19 @@ namespace App\Entity;
 
 use App\Core\Persistence\Entity\AbstractEntity;
 use App\Core\Persistence\Entity\Trait\EntityTrait;
-use App\Repository\UserEntityRepository;
+use App\Repository\CommunityEntityRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[ORM\Entity(repositoryClass: UserEntityRepository::class)]
+#[ORM\Entity(repositoryClass: CommunityEntityRepository::class)]
 #[ORM\Table(name: "communities")]
 class CommunityEntity extends AbstractEntity
 {
     use EntityTrait;
 
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
-    #[ORM\Column(length: 50, nullable: false)]
+    #[Assert\Length(min: 2, max: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     private ?string $name = null;
 
     #[Assert\NotBlank]
