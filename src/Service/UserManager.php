@@ -25,13 +25,13 @@ class UserManager extends AbstractManager
         $userEntity = new UserEntity();
         $userEntity
             ->setEmail($request->email)
-            ->setPassword($request->password)
+//            ->setPassword($request->password)
             ->setFirstName($request->firstName)
             ->setLastName($request->lastName)
             ->setTitle($request->title)
             ->setAbout($request->about);
 
-        $userEntity = $this->passwordManager->updatePassword($userEntity, $request->password);
+//        $userEntity = $this->passwordManager->updatePassword($userEntity, $request->password);
 
         $this->getUserEntityRepository()->save($userEntity);
         return $userEntity;
