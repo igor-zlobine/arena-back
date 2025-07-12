@@ -8,6 +8,7 @@ use App\Entity\CommunityEntity;
 use App\Request\CreateCommunityRequest;
 use App\Request\CreateUserRequest;
 use App\Request\LoginRequest;
+use App\Request\UpdateCommunityRequest;
 use App\Service\CommunityManager;
 use App\Service\Security\AuthTokenManager;
 use App\Service\UserManager;
@@ -38,6 +39,15 @@ class CommunityController extends AbstractController
     public function get(string $communityId)
     {
         return $this->getManger()->getById($communityId);
+    }
+
+    #[Rest\View(statusCode:200)]
+    #[Rest\Put('/{communityId}', name: 'update')]
+    public function update(#[MapRequestPayload(validationGroups: 'n')] UpdateCommunityRequest $request, string $communityId)
+    {
+//        return [];
+        $request->id = $communityId;
+        return $this->getManger()->updateCommunity($request);
     }
 
     #[Rest\View(statusCode:200)]

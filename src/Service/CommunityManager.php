@@ -9,6 +9,7 @@ use App\Repository\CommunityEntityRepository;
 use App\Repository\UserEntityRepository;
 use App\Request\CreateCommunityRequest;
 use App\Request\CreateUserRequest;
+use App\Request\UpdateCommunityRequest;
 use App\Service\Security\UserPasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -36,6 +37,19 @@ class CommunityManager extends AbstractManager
         $this->getCommunityEntityRepository()->save($entity);
         return $entity;
     }
+
+    public function updateCommunity(UpdateCommunityRequest $request): CommunityEntity
+    {
+
+        $entity = $this->getById($request->id);
+
+        $entity = $entity
+            ->setDescription($request->description)
+        ;
+        
+        return $this->getCommunityEntityRepository()->save($entity);
+    }
+
 
     public function fetchAll(): array
     {
