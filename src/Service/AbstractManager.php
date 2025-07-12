@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\Core\Exception\NotFoundException;
+use App\Core\Persistence\Entity\EntityInterface;
 use App\Core\Persistence\Repository\EntityRepositoryInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -12,6 +14,19 @@ abstract class AbstractManager
     )
     {
 
+    }
+
+    /**
+     * @throws NotFoundException
+     */
+    protected function getEntityById(string $entityClass, string $id): EntityInterface
+    {
+        $result = $this->getEntityRepository($entityClass)->find($id);
+
+        if (!$result) {
+            throw new NotFoundException(['Entity with ID [%s] not found', $id]);
+        }
+        return $result;
     }
 
     public function getEntityRepository(string $entityClass): EntityRepositoryInterface
