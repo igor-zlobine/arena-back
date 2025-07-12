@@ -9,6 +9,7 @@ use App\Entity\FanTokenEntity;
 use App\Entity\PaymentEntity;
 use App\Entity\UserEntity;
 use App\Entity\UserFanTokenEntity;
+use App\Repository\CommunityPostRepository;
 use App\Repository\FanTokenEntityRepository;
 use App\Repository\PaymentEntityRepository;
 use App\Repository\UserEntityRepository;
@@ -18,6 +19,7 @@ use App\Request\CreateFanTokenRequest;
 use App\Request\CreatePaymentRequest;
 use App\Request\CreateUserFanTokenRequest;
 use App\Request\CreateUserRequest;
+use App\Request\UpdateCommunityPostRequest;
 use App\Request\UpdateFanTokenRequest;
 use App\Service\Security\UserPasswordManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -52,23 +54,31 @@ class UserCommunityPostManager extends AbstractManager
         return $this->getRepository()->save($entity);
     }
 
-    /*** @return PaymentEntity[] */
-    public function fetchUserFanTokens(string $userId): array
+    public function updatePost(UpdateCommunityPostRequest $request): CommunityPostEntity
+    {
+        $entity = $this->getEntityById(CommunityPostEntity::class, $request->id);
+        $entity->setContent($request->content);
+
+        return $this->getRepository()->save($entity);
+    }
+
+    /*** @return CommunityPostEntity[] */
+    public function fetchPostByCommunity(string $communityId): array
     {
         return $this->getRepository()->findBy(
             [
-                'user' => $userId,
+                'community' => $communityId,
             ]
         );
     }
 
-    public function getById(string $id): UserFanTokenEntity
+    public function getById(string $id): CommunityPostEntity
     {
-        return $this->getEntityById(UserFanTokenEntity::class, $id);
+        return $this->getEntityById(CommunityPostEntity::class, $id);
     }
 
-    public function getRepository(): UserFanTokenEntityRepository
+    public function getRepository(): CommunityPostRepository
     {
-        return $this->getEntityRepository(UserFanTokenEntity::class);
+        return $this->getEntityRepository(CommunityPostEntity::class);
     }
 }

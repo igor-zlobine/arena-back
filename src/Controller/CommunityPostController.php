@@ -6,6 +6,7 @@ use App\Core\AbstractController;
 use App\Core\Validation\Validator;
 use App\Request\CreateCommunityPostRequest;
 use App\Request\CreateUserFanTokenRequest;
+use App\Request\UpdateCommunityPostRequest;
 use App\Service\UserCommunityPostManager;
 use App\Service\UserFanTokenManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -28,10 +29,19 @@ class CommunityPostController extends AbstractController
     }
 
     #[Rest\View(statusCode:200)]
-    #[Rest\Get('/{userId}', name: 'list')]
-    public function list(string $userId)
+    #[Rest\Put('/{postId}', name: 'update')]
+    public function update(#[MapRequestPayload(validationGroups: 'n')] UpdateCommunityPostRequest $request, string $postId)
     {
-        return $this->getManager()->fetchUserFanTokens($userId);
+        $request->id = $postId;
+        $this->validate($request);
+        return $this->getManager()->updatePost($request);
+    }
+
+    #[Rest\View(statusCode:200)]
+    #[Rest\Get('/{communityId}', name: 'list_by_community')]
+    public function listByCommunity(string $communityId)
+    {
+        return $this->getManager()->fetchPostByCommunity($communityId);
     }
 
     private function getManager(): UserCommunityPostManager

@@ -29,3 +29,4 @@ class CreateCommunityPostRequest implements RequestInterface
     public ?string $content = null;
 
 }
+
