@@ -28,6 +28,9 @@ class CommunityEntity extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?UserEntity $creator = null;
 
+    #[ORM\OneToOne(targetEntity: FanTokenEntity::class, mappedBy: 'community', cascade: ['persist', 'remove'])]
+    private ?FanTokenEntity $fanToken = null;
+
     public function getName(): ?string
     {
         return $this->name;
@@ -58,6 +61,17 @@ class CommunityEntity extends AbstractEntity
     public function setCreator(?UserEntity $creator): self
     {
         $this->creator = $creator;
+        return $this;
+    }
+
+    public function getFanToken(): ?FanTokenEntity
+    {
+        return $this->fanToken;
+    }
+
+    public function setFanToken(?FanTokenEntity $fanToken): self
+    {
+        $this->fanToken = $fanToken;
         return $this;
     }
 }

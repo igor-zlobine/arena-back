@@ -46,7 +46,7 @@ class CommunityManager extends AbstractManager
         $entity = $entity
             ->setDescription($request->description)
         ;
-        
+
         return $this->getCommunityEntityRepository()->save($entity);
     }
 
