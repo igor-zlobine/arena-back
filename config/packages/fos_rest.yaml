@@ -1,0 +1,18 @@
+# Read the documentation: https://fosrestbundle.readthedocs.io/en/3.x/
+fos_rest:
+    zone:
+        - { path: ^/api }
+    param_fetcher_listener: true
+    view:
+        view_response_listener: true
+        empty_content: 204
+    body_listener:
+        default_format: json
+        array_normalizer:
+            service: fos_rest.normalizer.camel_keys
+            forms: true
+    format_listener:
+        rules:
+            - { path: '^/api', priorities: ['json'], fallback_format: 'json' }
+    serializer:
+        serialize_null:  true
