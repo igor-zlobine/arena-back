@@ -6,6 +6,7 @@ use App\Core\Exception\NotFoundException;
 use App\Entity\CommunityEntity;
 use App\Entity\FanTokenEntity;
 use App\Entity\UserEntity;
+use App\Repository\FanTokenEntityRepository;
 use App\Repository\UserEntityRepository;
 use App\Request\CreateFanTokenRequest;
 use App\Request\CreateUserRequest;
@@ -36,19 +37,22 @@ class FanTokenManager extends AbstractManager
 
         $entity->setCommunity($community);
 
-        return $this->getUserEntityRepository()->save($entity);
+        return $this->getRepository()->save($entity);
     }
 
-    /**
-     * @throws NotFoundException
-     */
-    public function getUserById(string $id): UserEntity
+    /*** @return FanTokenEntity[] */
+    public function fetchTokens(): array
     {
-        return $this->getEntityById(UserEntity::class, $id);
+        return $this->getRepository()->findAll();
     }
 
-    public function getUserEntityRepository(): UserEntityRepository
+    public function getById(string $id): FanTokenEntity
     {
-        return $this->getEntityRepository(UserEntity::class);
+        return $this->getEntityById(FanTokenEntity::class, $id);
+    }
+
+    public function getRepository(): FanTokenEntityRepository
+    {
+        return $this->getEntityRepository(FanTokenEntity::class);
     }
 }

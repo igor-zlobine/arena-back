@@ -29,6 +29,20 @@ class FanTokenController extends AbstractController
         return $this->getManager()->createFanToken($request);
     }
 
+    #[Rest\View(statusCode:200)]
+    #[Rest\Get(name: 'list')]
+    public function list()
+    {
+        return $this->getManager()->fetchTokens();
+    }
+
+    #[Rest\View(statusCode:200)]
+    #[Rest\Get('/{fantokenId}', name: 'get')]
+    public function get(string $fantokenId)
+    {
+        return $this->getManager()->getById($fantokenId);
+    }
+
     private function getManager(): FanTokenManager
     {
         return $this->manager;

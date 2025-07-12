@@ -45,7 +45,6 @@ class CommunityController extends AbstractController
     #[Rest\Put('/{communityId}', name: 'update')]
     public function update(#[MapRequestPayload(validationGroups: 'n')] UpdateCommunityRequest $request, string $communityId)
     {
-//        return [];
         $request->id = $communityId;
         return $this->getManger()->updateCommunity($request);
     }
