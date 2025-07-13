@@ -5,11 +5,15 @@ namespace App\Entity;
 use App\Core\Persistence\Entity\AbstractEntity;
 use App\Core\Persistence\Entity\Trait\EntityTrait;
 use App\Repository\CommunityPostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation AS JMS;
 
 #[ORM\Entity(repositoryClass: CommunityPostRepository::class)]
 #[ORM\Table(name: "community_posts")]
+#[JMS\ExclusionPolicy('NONE')]
 class CommunityPostEntity extends AbstractEntity
 {
     use EntityTrait;
@@ -36,6 +40,17 @@ class CommunityPostEntity extends AbstractEntity
     #[ORM\ManyToOne(targetEntity: CommunityEntity::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?CommunityEntity $community = null;
+
+    #[JMS\Exclude]
+    #[ORM\OneToMany(targetEntity: CommunityPostReactionEntity::class, mappedBy: 'post', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $reactions;
+
+
+    public function __construct()
+    {
+        $this->generateId();
+        $this->reactions = new ArrayCollection();
+    }
 
     public function getType(): ?string
     {
@@ -92,4 +107,13 @@ class CommunityPostEntity extends AbstractEntity
         return $this;
     }
 
+    #[JMS\VirtualProperty]
+    #[JMS\SerializedName("likesCount")]
+    #[JMS\Expose]
+    public function getLikesCount(): int
+    {
+        return $this->reactions
+            ->filter(fn(CommunityPostReactionEntity $r) => $r->getType() === 'like')
+            ->count();
+    }
 }
