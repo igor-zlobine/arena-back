@@ -25,7 +25,7 @@ class CommunityPostReactionEntity extends AbstractEntity
     #[ORM\JoinColumn(nullable: false)]
     private ?UserEntity $creator = null;
 
-    #[ORM\ManyToOne(targetEntity: CommunityPostEntity::class)]
+    #[ORM\ManyToOne(targetEntity: CommunityPostEntity::class, inversedBy: 'reactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?CommunityPostEntity $post = null;
 
